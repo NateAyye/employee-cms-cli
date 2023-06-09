@@ -1,13 +1,31 @@
 const inquirer = require('inquirer');
-const mysql = require('mysql2');
 
-// create the connection to database
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'Bo0tc4mp!',
-  database: 'employee_db',
-});
+async function init() {
+  const answers = await inquirer.prompt([
+    {
+      type: 'list',
+      name: 'init',
+      message: 'What would you like to do?',
+      choices: [
+        'View All Employees',
+        'View All Employees By Department',
+        'View All Employees By Manager',
+        'View All Departments',
+        'View All Roles',
+        'Add Employee',
+        'Add Role',
+        'Add Department',
+        'Remove Department',
+        'Remove Employee',
+        'Remove Role',
+        'Update Employee Role',
+        'Update Employee Manager',
+        'Quit',
+      ],
+    },
+  ]);
+  console.log(answers);
+}
 
 (async () => {
   console.log(`
@@ -15,4 +33,18 @@ const connection = mysql.createConnection({
 Welcome to Your Employee Tracker
 \x1b[36m ==============================\x1b[0m
 `);
+
+  await init();
+
+  await inquirer
+    .prompt([
+      {
+        type: 'input',
+        name: 'name',
+        message: 'What is your name?',
+      },
+    ])
+    .then((answers) => {
+      console.log(answers);
+    });
 })();
