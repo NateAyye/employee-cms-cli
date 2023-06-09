@@ -3,23 +3,23 @@ CREATE DATABASE employee_db;
 
 USE employee_db;
 
-CREATE TABLE department (
+CREATE TABLE departments (
   id INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(30),
   PRIMARY KEY (id)
 );
 
-CREATE TABLE role (
+CREATE TABLE roles (
   id INT NOT NULL AUTO_INCREMENT,
   title VARCHAR(30),
   salary DECIMAL(10,2),
   department_id INT,
   PRIMARY KEY (id),
   FOREIGN KEY (department_id)
-  REFERENCES employee_db.department(id)
+  REFERENCES employee_db.departments(id)
 );
 
-CREATE TABLE employee (
+CREATE TABLE employees (
   id INT NOT NULL AUTO_INCREMENT,
   first_name VARCHAR(30),
   last_name VARCHAR(30),
@@ -27,8 +27,13 @@ CREATE TABLE employee (
   manager_id INT,
   PRIMARY KEY (id),
   FOREIGN KEY (role_id)
-  REFERENCES employee_db.role(id)
+  REFERENCES employee_db.roles(id)
 );
+
+
+-- Selecting all employees by department 
+
+
 
 
 
