@@ -1,25 +1,15 @@
 const CMS = require('./utils/CMS');
 
 (async () => {
+  // Log welcome message to the console on app start
   console.log(`
 \x1b[36m ==============================\x1b[0m
 Welcome to Your Employee Tracker
 \x1b[36m ==============================\x1b[0m
 `);
 
-  const db = new CMS();
-
-  db.init();
-
-  // await inquirer
-  //   .prompt([
-  //     {
-  //       type: 'input',
-  //       name: 'name',
-  //       message: 'What is your name?',
-  //     },
-  //   ])
-  //   .then((answers) => {
-  //     console.log(answers);
-  //   });
+  // Initialize the CMS
+  const cms = new CMS();
+  // Start the CMS app
+  cms.init();
 })();

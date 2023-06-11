@@ -1,17 +1,30 @@
 const inquirer = require('inquirer');
-
+/***
+ * @class CMS
+ * @description This class is used to manage the CMS
+ * @method init
+ */
 class CMS {
+  /***
+   * @constructor
+   * @description This constructor is used to initialize the CMS
+   */
   constructor() {
     this.db = require('../config/connection');
   }
+
   async 'View All Employees'() {
     this.db
       .promise()
+      // First, query the database
       .query('SELECT * FROM employees;')
+      // Then, display the results
       .then((results) => console.table(results[0]))
+      // Finally, re-initialize the CMS
       .finally(async () => {
         await this.init();
       })
+      // Catch any errors that occur
       .catch((err) => {
         throw err;
       });
@@ -20,13 +33,17 @@ class CMS {
     // View All Employees By Department
     this.db
       .promise()
+      // First, query the database for all departments and their employees
       .query(
         'SELECT departments.name AS department, JSON_ARRAYAGG(CONCAT(employees.first_name, " ", employees.last_name)) AS Employee FROM employees LEFT JOIN roles ON employees.role_id = roles.id LEFT JOIN departments ON roles.department_id = departments.id GROUP BY departments.name',
       )
+      // Then, display the results in a table
       .then((results) => console.table(results[0]))
+      // Finally, re-initialize the CMS
       .finally(async () => {
         await this.init();
       })
+      // Catch any errors that occur
       .catch((err) => {
         throw err;
       });
@@ -76,14 +93,17 @@ class CMS {
     // Add Employee
     this.db
       .promise()
+      // First, query the database for all roles
       .query('SELECT * FROM roles;')
       .then((results) => {
+        // Then, create a new array of roles with the name and value
         const roles = results[0].map((role) => {
           return {
             name: role.title,
             value: role.id,
           };
         });
+        // Then, prompt the user for the employee information
         inquirer
           .prompt([
             {
@@ -108,6 +128,7 @@ class CMS {
               message: 'What is the employee manager id?',
             },
           ])
+          // Then, insert the new employee into the database with the user's answers
           .then((answers) => {
             this.db
               .promise()
@@ -128,14 +149,17 @@ class CMS {
     // Add Role
     this.db
       .promise()
+      // First, query the database for all departments
       .query('SELECT * FROM departments;')
       .then((results) => {
+        // Then, create a new array of departments with the name and value
         const departments = results[0].map((department) => {
           return {
             name: department.name,
             value: department.id,
           };
         });
+        // Then, prompt the user for the role information
         inquirer
           .prompt([
             {
@@ -155,6 +179,7 @@ class CMS {
               choices: departments,
             },
           ])
+          // Then, insert the new role into the database with the user's answers
           .then((answers) => {
             this.db
               .promise()
@@ -171,12 +196,241 @@ class CMS {
           });
       });
   }
-  'Add Department'() {}
-  'Remove Department'() {}
-  'Remove Employee'() {}
-  'Remove Role'() {}
-  'Update Employee Role'() {}
-  'Update Employee Manager'() {}
+  'Add Department'() {
+    // Add Department
+    inquirer
+      .prompt([
+        {
+          type: 'input',
+          name: 'name',
+          message: 'What is the department name?',
+        },
+      ])
+      .then((answers) => {
+        this.db
+          .promise()
+          .query('INSERT INTO departments SET ?', answers)
+          .then((results) => {
+            console.log(results);
+          })
+          .finally(async () => {
+            await this.init();
+          })
+          .catch((err) => {
+            throw err;
+          });
+      });
+  }
+  'Remove Department'() {
+    // Remove Department
+    this.db
+      .promise()
+      .query('SELECT * FROM departments;')
+      .then((results) => {
+        const departments = results[0].map((department) => {
+          return {
+            name: department.name,
+            value: department.id,
+          };
+        });
+        inquirer
+          .prompt([
+            {
+              type: 'list',
+              name: 'id',
+              message: 'What is the department id?',
+              choices: departments,
+            },
+          ])
+          .then((answers) => {
+            this.db
+              .promise()
+              .query('DELETE FROM departments WHERE ?', answers)
+              .then((results) => {
+                console.log(results);
+              })
+              .finally(async () => {
+                await this.init();
+              })
+              .catch((err) => {
+                throw err;
+              });
+          });
+      });
+  }
+  'Remove Employee'() {
+    // Remove Employee
+    this.db
+      .promise()
+      .query('SELECT * FROM employees;')
+      .then((results) => {
+        const employees = results[0].map((employee) => {
+          return {
+            name: `${employee.first_name} ${employee.last_name}`,
+            value: employee.id,
+          };
+        });
+        inquirer
+          .prompt([
+            {
+              type: 'list',
+              name: 'id',
+              message: 'What is the employee id?',
+              choices: employees,
+            },
+          ])
+          .then((answers) => {
+            this.db
+              .promise()
+              .query('DELETE FROM employees WHERE ?', answers)
+              .then((results) => {
+                console.log(results);
+              })
+              .finally(async () => {
+                await this.init();
+              })
+              .catch((err) => {
+                throw err;
+              });
+          });
+      });
+  }
+  'Remove Role'() {
+    // Remove Role
+    this.db
+      .promise()
+      .query('SELECT * FROM roles;')
+      .then((results) => {
+        const roles = results[0].map((role) => {
+          return {
+            name: role.title,
+            value: role.id,
+          };
+        });
+        inquirer
+          .prompt([
+            {
+              type: 'list',
+              name: 'id',
+              message: 'What is the role id?',
+              choices: roles,
+            },
+          ])
+          .then((answers) => {
+            this.db
+              .promise()
+              .query('DELETE FROM roles WHERE ?', answers)
+              .then((results) => {
+                console.log(results);
+              })
+              .finally(async () => {
+                await this.init();
+              })
+              .catch((err) => {
+                throw err;
+              });
+          });
+      });
+  }
+  'Update Employee Role'() {
+    // Update Employee Role
+    this.db
+      .promise()
+      .query('SELECT * FROM employees;')
+      .then(async (results) => {
+        const employees = results[0].map((employee) => {
+          return {
+            name: `${employee.first_name} ${employee.last_name}`,
+            value: employee.id,
+          };
+        });
+        const rolesDb = await this.db.promise().query('SELECT * FROM roles;');
+        const roles = rolesDb[0].map((role) => {
+          return {
+            name: role.title,
+            value: role.id,
+          };
+        });
+        inquirer
+          .prompt([
+            {
+              type: 'list',
+              name: 'id',
+              message: 'What is the employee id?',
+              choices: employees,
+            },
+            {
+              type: 'list',
+              name: 'role_id',
+              message: 'What is the employee role?',
+              choices: roles,
+            },
+          ])
+          .then((answers) => {
+            this.db
+              .promise()
+              .query('UPDATE employees SET ? WHERE ?', [
+                { role_id: answers.role_id },
+                { id: answers.id },
+              ])
+              .then((results) => {
+                console.log(results);
+              })
+              .finally(async () => {
+                await this.init();
+              })
+              .catch((err) => {
+                throw err;
+              });
+          });
+      });
+  }
+  'Update Employee Manager'() {
+    // Update Employee Manager
+    this.db
+      .promise()
+      .query('SELECT * FROM employees;')
+      .then((results) => {
+        const employees = results[0].map((employee) => {
+          return {
+            name: `${employee.first_name} ${employee.last_name}`,
+            value: employee.id,
+          };
+        });
+        inquirer
+          .prompt([
+            {
+              type: 'list',
+              name: 'id',
+              message: 'What is the employee id?',
+              choices: employees,
+            },
+            {
+              type: 'list',
+              name: 'manager_id',
+              message: 'Who is the employee manager?',
+              choices: employees,
+            },
+          ])
+          .then((answers) => {
+            this.db
+              .promise()
+              .query('UPDATE employees SET ? WHERE ?', [
+                { manager_id: answers.manager_id },
+                { id: answers.id },
+              ])
+              .then((results) => {
+                console.log(results);
+              })
+              .finally(async () => {
+                await this.init();
+              })
+              .catch((err) => {
+                throw err;
+              });
+          });
+      });
+  }
   Quit() {
     console.log('Goodbye!');
     process.exit();
