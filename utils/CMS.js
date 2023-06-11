@@ -134,7 +134,7 @@ class CMS {
               .promise()
               .query('INSERT INTO employees SET ?', answers)
               .then((results) => {
-                console.log(results);
+                console.log('✅ Employee Added!');
               })
               .finally(async () => {
                 await this.init();
@@ -185,7 +185,7 @@ class CMS {
               .promise()
               .query('INSERT INTO roles SET ?', answers)
               .then((results) => {
-                console.log(results);
+                console.log('✅ Role Added!');
               })
               .finally(async () => {
                 await this.init();
@@ -211,7 +211,7 @@ class CMS {
           .promise()
           .query('INSERT INTO departments SET ?', answers)
           .then((results) => {
-            console.log(results);
+            console.log('✅ Department Added!');
           })
           .finally(async () => {
             await this.init();
@@ -247,7 +247,7 @@ class CMS {
               .promise()
               .query('DELETE FROM departments WHERE ?', answers)
               .then((results) => {
-                console.log(results);
+                console.log('✅ Department Removed!');
               })
               .finally(async () => {
                 await this.init();
@@ -284,7 +284,7 @@ class CMS {
               .promise()
               .query('DELETE FROM employees WHERE ?', answers)
               .then((results) => {
-                console.log(results);
+                console.log('✅ Employee Removed!');
               })
               .finally(async () => {
                 await this.init();
@@ -321,7 +321,7 @@ class CMS {
               .promise()
               .query('DELETE FROM roles WHERE ?', answers)
               .then((results) => {
-                console.log(results);
+                console.log('✅ Role Removed!');
               })
               .finally(async () => {
                 await this.init();
@@ -374,7 +374,7 @@ class CMS {
                 { id: answers.id },
               ])
               .then((results) => {
-                console.log(results);
+                console.log('✅ Employee role updated!');
               })
               .finally(async () => {
                 await this.init();
@@ -420,7 +420,7 @@ class CMS {
                 { id: answers.id },
               ])
               .then((results) => {
-                console.log(results);
+                console.log('✅ Employee manager updated!');
               })
               .finally(async () => {
                 await this.init();
@@ -432,7 +432,7 @@ class CMS {
       });
   }
   Quit() {
-    console.log('Goodbye!');
+    console.log('\x1B[33m Goodbye!');
     process.exit();
   }
   async init() {
@@ -459,7 +459,6 @@ class CMS {
         ],
       },
     ]);
-    console.log(answers);
     this[answers.init]();
   }
 }
