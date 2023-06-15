@@ -1,13 +1,13 @@
 const inquirer = require('inquirer');
 /***
  * @class CMS
- * @description This class is used to manage the CMS
+ * @description This class is used to manage the CMS For an employee database using mysql and the mysql2 npm package
  * @method init
  */
 class CMS {
   /***
    * @constructor
-   * @description This constructor is used to initialize the CMS
+   * @description This constructor is used to initialize the CMS and reasks the user what they want to do
    */
   constructor() {
     this.db = require('../config/connection');

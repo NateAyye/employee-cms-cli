@@ -43,7 +43,11 @@ now running the npm start command will initiallize the cms in the command line a
 
 ## Usage
 
-[![A video thumbnail shows the command-line employee management application with a play button overlaying the view.](./Assets/12-sql-homework-video-thumbnail.png)](https://2u-20.wistia.com/medias/2lnle7xnpk)
+<video src="assets/example.mp4" controls title="Title"></video>
+
+External Link to Video Below:
+
+[![Alt text](assets/screenshot.png)](https://drive.google.com/file/d/1voQsuJr4TMv2gzhiS2QDXGUprZ0cjDgR/view?usp=sharing)
 
 ## Contribution
 
