@@ -17,6 +17,7 @@ CREATE TABLE roles (
   PRIMARY KEY (id),
   FOREIGN KEY (department_id)
   REFERENCES employee_db.departments(id)
+  ON DELETE SET NULL
 );
 
 CREATE TABLE employees (
@@ -28,13 +29,5 @@ CREATE TABLE employees (
   PRIMARY KEY (id),
   FOREIGN KEY (role_id)
   REFERENCES employee_db.roles(id)
+  ON DELETE SET NULL
 );
-
-
--- Selecting all employees by department 
-
-
-
-
-
--- ALTER TABLE employee ADD CONSTRAINT fk_manager FOREIGN KEY (manager_id) REFERENCES employee(id);

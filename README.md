@@ -24,8 +24,6 @@ You can install this locally and run your very own version of it by running:
 
 > Note: You will need to have [MySQL](https://dev.mysql.com/doc/mysql-shell/8.0/en/mysql-shell-install.html) installed on your machine to run this.
 
-Install the project and its dependencies by running:
-
 ```
 git clone https://github.com/NateAyye/employee-cms-cli.git
 cd employee-cms-cli
@@ -45,7 +43,7 @@ now running the npm start command will initiallize the cms in the command line a
 
 ## Usage
 
-[&#x21e8; Open Example Video In Browser &#x21e6;](https://drive.google.com/file/d/1IHOGMeqCyTsCzFrO7-yvE2cQbYuLYNE8/view?usp=sharing)
+[![A video thumbnail shows the command-line employee management application with a play button overlaying the view.](./Assets/12-sql-homework-video-thumbnail.png)](https://2u-20.wistia.com/medias/2lnle7xnpk)
 
 ## Contribution
 
